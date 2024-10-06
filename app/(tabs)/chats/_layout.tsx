@@ -15,7 +15,6 @@ function Layout() {
           headerBlurEffect: "regular",
           headerStyle: { backgroundColor: Colors.background },
           headerSearchBarOptions: { placeholder: "Search" },
-          headerStyle: { backgroundColor: "#fff" },
         }}
       />
     </Stack>
