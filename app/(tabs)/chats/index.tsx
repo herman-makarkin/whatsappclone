@@ -9,7 +9,7 @@ const Page = () => {
   return (
     <ScrollView
       contentInsetAdjustmentBehavior="automatic"
-      contentContainerStyle={{ paddingBottom: 40, paddingTop: 100, width: 370 }}
+      contentContainerStyle={{ paddingBottom: 40, paddingTop: 50, width: 370 }}
     >
       <FlatList
         data={chats}

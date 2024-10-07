@@ -56,7 +56,7 @@ const ChatRow: FC<ChatRowProps> = ({
                 {msg.length > 40 ? `${msg.substring(0, 40)}` : msg}
               </Text>
             </View>
-            <Text style={{ color: Colors.gray }}>
+            <Text style={{ color: Colors.gray, alignSelf: "flex-start" }}>
               {format(date, "MM.dd.yy")}
             </Text>
           </View>
