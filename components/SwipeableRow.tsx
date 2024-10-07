@@ -1,45 +1,59 @@
 import React, { Component, PropsWithChildren } from "react";
-import { Animated, StyleSheet, I18nManager, View } from "react-native";
+import { Animated, StyleSheet, Text, View, I18nManager } from "react-native";
+import Colors from "@/constants/Colors";
 
 import { RectButton, Swipeable } from "react-native-gesture-handler";
-
-const AnimatedView = Animated.createAnimatedComponent(View);
+import { Ionicons } from "@expo/vector-icons";
 
 export default class SwipeableRow extends Component<
   PropsWithChildren<unknown>
 > {
-  private renderLeftActions = (
-    _progress: Animated.AnimatedInterpolation<number>,
-    dragX: Animated.AnimatedInterpolation<number>
+  private renderRightAction = (
+    text: string,
+    color: string,
+    x: number,
+    progress: Animated.AnimatedInterpolation<number>
   ) => {
-    const scale = dragX.interpolate({
-      inputRange: [0, 80],
-      outputRange: [0, 1],
-      extrapolate: "clamp",
+    const trans = progress.interpolate({
+      inputRange: [0, 1],
+      outputRange: [x, 0],
     });
+    const pressHandler = () => {
+      this.close();
+      window.alert(text);
+    };
+
     return (
-      <RectButton style={styles.leftAction} onPress={this.close}>
-        {/* Change it to some icons */}
-        <AnimatedView style={[styles.actionIcon, { transform: [{ scale }] }]} />
-      </RectButton>
+      <Animated.View style={{ flex: 1, transform: [{ translateX: trans }] }}>
+        <RectButton
+          style={[styles.rightAction, { backgroundColor: color }]}
+          onPress={pressHandler}
+        >
+          <Ionicons
+            name={text === "More" ? "ellipsis-horizontal" : "archive-outline"}
+            size={26}
+            color="white"
+          />
+          <Text style={styles.actionText}>{text}</Text>
+        </RectButton>
+      </Animated.View>
     );
   };
+
   private renderRightActions = (
-    _progress: Animated.AnimatedInterpolation<number>,
-    dragX: Animated.AnimatedInterpolation<number>
-  ) => {
-    const scale = dragX.interpolate({
-      inputRange: [-80, 0],
-      outputRange: [1, 0],
-      extrapolate: "clamp",
-    });
-    return (
-      <RectButton style={styles.rightAction} onPress={this.close}>
-        {/* Change it to some icons */}
-        <AnimatedView style={[styles.actionIcon, { transform: [{ scale }] }]} />
-      </RectButton>
-    );
-  };
+    progress: Animated.AnimatedInterpolation<number>,
+    _dragAnimatedValue: Animated.AnimatedInterpolation<number>
+  ) => (
+    <View
+      style={{
+        width: 192,
+        flexDirection: I18nManager.isRTL ? "row-reverse" : "row",
+      }}
+    >
+      {this.renderRightAction("More", "#C8C7CD", 192, progress)}
+      {this.renderRightAction("Archive", Colors.muted, 100, progress)}
+    </View>
+  );
 
   private swipeableRow?: Swipeable;
 
@@ -55,11 +69,16 @@ export default class SwipeableRow extends Component<
       <Swipeable
         ref={this.updateRef}
         friction={2}
-        leftThreshold={80}
         enableTrackpadTwoFingerGesture
+        leftThreshold={30}
         rightThreshold={40}
-        renderLeftActions={this.renderLeftActions}
         renderRightActions={this.renderRightActions}
+        onSwipeableOpen={(direction) => {
+          console.log(`Opening swipeable from the ${direction}`);
+        }}
+        onSwipeableClose={(direction) => {
+          console.log(`Closing swipeable to the ${direction}`);
+        }}
       >
         {children}
       </Swipeable>
@@ -68,24 +87,15 @@ export default class SwipeableRow extends Component<
 }
 
 const styles = StyleSheet.create({
-  leftAction: {
-    flex: 1,
-    backgroundColor: "#388e3c",
-    justifyContent: "flex-end",
-    alignItems: "center",
-    flexDirection: I18nManager.isRTL ? "row" : "row-reverse",
-  },
-  actionIcon: {
-    width: 30,
-    marginHorizontal: 10,
-    backgroundColor: "plum",
-    height: 20,
+  actionText: {
+    color: "white",
+    fontSize: 16,
+    backgroundColor: "transparent",
+    padding: 10,
   },
   rightAction: {
     alignItems: "center",
-    flexDirection: I18nManager.isRTL ? "row-reverse" : "row",
-    backgroundColor: "#dd2c00",
     flex: 1,
-    justifyContent: "flex-end",
+    justifyContent: "center",
   },
 });
