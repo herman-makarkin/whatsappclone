@@ -30,7 +30,9 @@ const Page = () => {
       }}
     >
       <Stack.Screen
-        options={{
+      /*
+        options={
+          {
           headerLeft: () => (
             <TouchableOpacity onPress={onEdit}>
               <Text style={{ color: Colors.primary }}>
@@ -38,7 +40,9 @@ const Page = () => {
               </Text>
             </TouchableOpacity>
           ),
-        }}
+          }
+        }
+          */
       />
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"

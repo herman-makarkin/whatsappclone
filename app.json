@@ -34,6 +34,11 @@
     "experiments": {
       "typedRoutes": true,
       "tsconfigPaths": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "874dfce9-873b-4665-9491-d2e9bf2c0fcd"
+      }
     }
   }
 }

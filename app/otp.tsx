@@ -74,7 +74,13 @@ const otp = () => {
           disabled={phoneNumber === ""}
           onPress={sendOTP}
         >
-          <Text style={styles.buttonText}>Next</Text>
+          <Text
+            style={
+              phoneNumber !== "" ? styles.buttonTextEnabled : styles.buttonText
+            }
+          >
+            Next
+          </Text>
         </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>
@@ -124,6 +130,9 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: Colors.gray,
+  },
+  buttonTextEnabled: {
+    color: "#fff",
   },
   loading: {
     ...StyleSheet.absoluteFillObject,

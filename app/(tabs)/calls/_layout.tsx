@@ -14,11 +14,13 @@ function Layout() {
           headerShadowVisible: false,
           headerStyle: { backgroundColor: Colors.background },
           headerSearchBarOptions: { placeholder: "Search" },
+          /*
           headerRight: () => (
             <TouchableOpacity>
               <Ionicons name="call-outline" color={Colors.primary} size={30} />
             </TouchableOpacity>
           ),
+          */
         }}
       />
     </Stack>

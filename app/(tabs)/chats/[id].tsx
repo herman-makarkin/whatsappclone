@@ -1,15 +1,21 @@
 import React, { useState, useCallback, useEffect } from "react";
 import Colors from "@/constants/Colors";
-import { GiftedChat, IMessage, SystemMessage } from "react-native-gifted-chat";
+import {
+  Bubble,
+  GiftedChat,
+  IMessage,
+  SystemMessage,
+} from "react-native-gifted-chat";
+import { Message } from "react-native-gifted-chat";
 import messageData from "@/assets/data/messages.json";
 import { View, Text, StyleSheet, ImageBackground } from "react-native";
 import pattern from "@/assets/images/pattern.png";
 
 const Page = () => {
   const [messages, setMessages] = useState<IMessage[]>([]);
-  const [text, setText] = useState("");
+  //const [text, setText] = useState("");
 
-  const [replyMessage, setReplyMessage] = useState<IMessage | null>(null);
+  //const [replyMessage, setReplyMessage] = useState<IMessage | null>(null);
   //const swipeableRowRef = useRef<Swipeable | null>(null);
 
   useEffect(() => {
@@ -39,6 +45,7 @@ const Page = () => {
   }, []);
 
   const onSend = useCallback((messages = []) => {
+    console.log(messages);
     setMessages((previousMessages: any[]) =>
       GiftedChat.append(previousMessages, messages)
     );
@@ -61,6 +68,9 @@ const Page = () => {
         }}
         renderAvatar={null}
         renderSystemMessage={(props) => <SystemMessage {...props} />}
+        renderBubble={(props) => {
+          return <Bubble {...props} />;
+        }}
       />
     </ImageBackground>
   );
