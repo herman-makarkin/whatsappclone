@@ -9,14 +9,26 @@ import {
 import { Message } from "react-native-gifted-chat";
 import messageData from "@/assets/data/messages.json";
 import { View, Text, StyleSheet, ImageBackground } from "react-native";
-import pattern from "@/assets/images/pattern.png";
+import lightPattern from "@/assets/images/pattern.png";
+import darkPattern from "@/assets/images/pattern.jpg";
+import { useColorScheme } from "react-native";
+import { Swipeable, TouchableOpacity } from "react-native-gesture-handler";
+import { InputToolbar } from "react-native-gifted-chat";
+import { Send } from "react-native-gifted-chat";
+import { Ionicons } from "@expo/vector-icons";
+import { useRef } from "react";
 
 const Page = () => {
   const [messages, setMessages] = useState<IMessage[]>([]);
-  //const [text, setText] = useState("");
+  const [text, setText] = useState("");
 
-  //const [replyMessage, setReplyMessage] = useState<IMessage | null>(null);
+  const swipeableRowRef = useRef<Swipeable | null>(null);
+
+  const [replyMessage, setReplyMessage] = useState<IMessage | null>(null);
   //const swipeableRowRef = useRef<Swipeable | null>(null);
+
+  const colorScheme = useColorScheme();
+  const color = colorScheme === "dark" ? Colors.dark : Colors.light;
 
   useEffect(() => {
     setMessages([
@@ -44,6 +56,19 @@ const Page = () => {
     ]);
   }, []);
 
+  const updateRowRef = useCallback(
+    (ref: any) => {
+      if (
+        ref &&
+        replyMessage &&
+        ref.props.children.props.currentMessage?._id === replyMessage._id
+      ) {
+        swipeableRowRef.current = ref;
+      }
+    },
+    [replyMessage]
+  );
+
   const onSend = useCallback((messages = []) => {
     console.log(messages);
     setMessages((previousMessages: any[]) =>
@@ -53,23 +78,64 @@ const Page = () => {
 
   return (
     <ImageBackground
-      source={pattern}
+      source={colorScheme === "dark" ? darkPattern : lightPattern}
       style={{
         flex: 1,
         //marginBottom: insets.bottom,
-        backgroundColor: Colors.background,
+        backgroundColor: color.background,
       }}
     >
       <GiftedChat
         messages={messages}
         onSend={(messages: any) => onSend(messages)}
+        onInputTextChanged={setText}
         user={{
           _id: 1,
         }}
         renderAvatar={null}
         renderSystemMessage={(props) => <SystemMessage {...props} />}
         renderBubble={(props) => {
-          return <Bubble {...props} />;
+          return (
+            <Bubble
+              {...props}
+              textStyle={{
+                left: {
+                  color: color.text,
+                },
+                right: {
+                  color: color.text,
+                },
+              }}
+              wrapperStyle={{
+                left: {
+                  backgroundColor: color.tabs,
+                },
+                right: {
+                  backgroundColor: color.primary,
+                },
+              }}
+            />
+          );
+        }}
+        textInputProps={{ color: color.text }}
+        renderInputToolbar={(props) => (
+          <InputToolbar
+            {...props}
+            containerStyle={{
+              backgroundColor: color.tabs,
+            }}
+          ></InputToolbar>
+        )}
+        renderSend={(props) => {
+          return (
+            <View style={{ paddingBottom: 10 }}>
+              {text.length > 0 && (
+                <Send {...props}>
+                  <Ionicons name="send" color={color.primary} size={28} />
+                </Send>
+              )}
+            </View>
+          );
         }}
       />
     </ImageBackground>

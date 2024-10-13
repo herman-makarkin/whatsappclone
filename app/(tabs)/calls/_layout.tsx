@@ -2,8 +2,11 @@ import Colors from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 import { Stack } from "expo-router";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { useColorScheme } from "react-native";
 
 function Layout() {
+  const colorScheme = useColorScheme();
+  const color = colorScheme === "dark" ? Colors.dark : Colors.light;
   return (
     <Stack>
       <Stack.Screen
@@ -12,7 +15,7 @@ function Layout() {
           title: "Calls",
           headerLargeTitle: true,
           headerShadowVisible: false,
-          headerStyle: { backgroundColor: Colors.background },
+          headerStyle: { backgroundColor: color.tabs },
           headerSearchBarOptions: { placeholder: "Search" },
           /*
           headerRight: () => (

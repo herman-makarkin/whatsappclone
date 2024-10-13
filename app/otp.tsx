@@ -7,6 +7,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native";
 import MaskInput from "react-native-mask-input";
 import { ActivityIndicator } from "react-native";
+import { useColorScheme } from "react-native";
 const RUS_PHONE = [
   "+",
   /\d/,
@@ -37,24 +38,67 @@ const otp = () => {
       router.push(`/verify/${phoneNumber}`);
     }, 2000);
   };
+
+  const colorScheme = useColorScheme();
+  const color = colorScheme === "dark" ? Colors.dark : Colors.light;
+
   return (
     <KeyboardAvoidingView style={{ flex: 1 }}>
-      <View style={styles.container}>
+      <View
+        style={{
+          flex: 1,
+          alignItems: "center",
+          padding: 20,
+          backgroundColor: color.background,
+        }}
+      >
         {loading && (
-          <View style={[StyleSheet.absoluteFill, styles.loading]}>
+          <View
+            style={[
+              StyleSheet.absoluteFill,
+              {
+                ...StyleSheet.absoluteFillObject,
+                zIndex: 10,
+                backgroundColor: color.background,
+                justifyContent: "center",
+                alignItems: "center",
+              },
+            ]}
+          >
             <ActivityIndicator size="large" color={Colors.primary} />
-            <Text style={{ marginTop: 10, fontSize: 16 }}>Loading...</Text>
+            <Text style={{ marginTop: 10, fontSize: 16, color: color.text }}>
+              Loading...
+            </Text>
           </View>
         )}
-        <Text style={styles.description}>
+        <Text
+          style={{
+            color: color.text,
+            marginBottom: 20,
+          }}
+        >
           Whatsapp will need to verify your account. Carrier charges may apply
         </Text>
-        <View style={styles.list}>
+        <View
+          style={{
+            width: "100%",
+            backgroundColor: "white",
+            borderRadius: 8,
+            padding: 10,
+          }}
+        >
           <View style={styles.listItem}>
             <Text>Russia</Text>
             <Ionicons name="chevron-forward" size={23} color={Colors.gray} />
           </View>
-          <View style={styles.separator} />
+          <View
+            style={{
+              width: "100%",
+              height: StyleSheet.hairlineWidth,
+              backgroundColor: color.secondary,
+              opacity: 0.3,
+            }}
+          />
           <MaskInput
             value={phoneNumber}
             keyboardType="numeric"
@@ -70,14 +114,34 @@ const otp = () => {
         </View>
         <View style={{ flex: 1 }} />
         <TouchableOpacity
-          style={[styles.button, phoneNumber !== "" ? styles.enabled : null]}
+          style={[
+            phoneNumber !== ""
+              ? {
+                  backgroundColor: color.primary,
+                }
+              : {
+                  backgroundColor: color.secondary,
+                },
+            {
+              width: "100%",
+              alignItems: "center",
+              padding: 10,
+              borderRadius: 10,
+            },
+          ]}
           disabled={phoneNumber === ""}
           onPress={sendOTP}
         >
           <Text
-            style={
-              phoneNumber !== "" ? styles.buttonTextEnabled : styles.buttonText
-            }
+            style={[
+              phoneNumber !== ""
+                ? {
+                    color: color.text,
+                  }
+                : {
+                    color: color.text,
+                  },
+            ]}
           >
             Next
           </Text>
@@ -88,58 +152,12 @@ const otp = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    padding: 20,
-    backgroundColor: Colors.background,
-  },
-  description: {
-    color: Colors.gray,
-    marginBottom: 20,
-  },
-  list: {
-    width: "100%",
-    backgroundColor: "white",
-    borderRadius: 8,
-    padding: 10,
-  },
   listItem: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     padding: 6,
     marginBottom: 15,
-  },
-  separator: {
-    width: "100%",
-    height: StyleSheet.hairlineWidth,
-    backgroundColor: Colors.gray,
-    opacity: 0.3,
-  },
-  button: {
-    width: "100%",
-    backgroundColor: Colors.lightGray,
-    alignItems: "center",
-    padding: 10,
-    borderRadius: 10,
-  },
-  enabled: {
-    backgroundColor: Colors.primary,
-    color: "#fff",
-  },
-  buttonText: {
-    color: Colors.gray,
-  },
-  buttonTextEnabled: {
-    color: "#fff",
-  },
-  loading: {
-    ...StyleSheet.absoluteFillObject,
-    zIndex: 10,
-    backgroundColor: "#fff",
-    justifyContent: "center",
-    alignItems: "center",
   },
 });
 

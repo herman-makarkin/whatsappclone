@@ -4,7 +4,11 @@ import { Ionicons } from "@expo/vector-icons";
 import { View, ScrollView, Text, FlatList } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import BoxedIcon from "@/components/BoxedIcon";
+import { useColorScheme } from "react-native";
+
 const Page = () => {
+  const colorScheme = useColorScheme();
+  const color = colorScheme === "dark" ? Colors.dark : Colors.light;
   const devices = [
     {
       name: "Broadcast Lists",
@@ -67,19 +71,23 @@ const Page = () => {
   const onSignOut = () => {};
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, backgroundColor: color.background }}>
       <ScrollView contentInsetAdjustmentBehavior="automatic">
         <View style={defaultStyles.block}>
           <FlatList
             data={devices}
             scrollEnabled={false}
             renderItem={({ item }) => (
-              <View style={defaultStyles.item}>
+              <View
+                style={[defaultStyles.item, { backgroundColor: color.tabs }]}
+              >
                 <BoxedIcon
                   name={item.icon}
                   backgroundColor={item.backgroundColor}
                 />
-                <Text style={{ fontSize: 18, flex: 1 }}>{item.name}</Text>
+                <Text style={{ fontSize: 18, flex: 1, color: color.text }}>
+                  {item.name}
+                </Text>
                 <Ionicons
                   name="chevron-forward"
                   size={20}
@@ -94,12 +102,16 @@ const Page = () => {
             data={items}
             scrollEnabled={false}
             renderItem={({ item }) => (
-              <View style={defaultStyles.item}>
+              <View
+                style={[defaultStyles.item, { backgroundColor: color.tabs }]}
+              >
                 <BoxedIcon
                   name={item.icon}
                   backgroundColor={item.backgroundColor}
                 />
-                <Text style={{ fontSize: 18, flex: 1 }}>{item.name}</Text>
+                <Text style={{ fontSize: 18, flex: 1, color: color.text }}>
+                  {item.name}
+                </Text>
                 <Ionicons
                   name="chevron-forward"
                   size={20}
@@ -114,12 +126,16 @@ const Page = () => {
             data={support}
             scrollEnabled={false}
             renderItem={({ item }) => (
-              <View style={defaultStyles.item}>
+              <View
+                style={[defaultStyles.item, { backgroundColor: color.tabs }]}
+              >
                 <BoxedIcon
                   name={item.icon}
                   backgroundColor={item.backgroundColor}
                 />
-                <Text style={{ fontSize: 18, flex: 1 }}>{item.name}</Text>
+                <Text style={{ fontSize: 18, flex: 1, color: color.text }}>
+                  {item.name}
+                </Text>
                 <Ionicons
                   name="chevron-forward"
                   size={20}
@@ -132,7 +148,7 @@ const Page = () => {
         <TouchableOpacity onPress={() => onSignOut()}>
           <Text
             style={{
-              color: Colors.primary,
+              color: color.primary,
               fontSize: 18,
               textAlign: "center",
               paddingVertical: 15,

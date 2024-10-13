@@ -7,9 +7,10 @@ import {
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
-import { useEffect } from "react";
+import { useEffect, useState, useMemo, createContext } from "react";
 import { useColorScheme } from "react-native";
 import "react-native-reanimated";
+import Colors from "@/constants/Colors";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -45,35 +46,31 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
+
   return (
-    //<ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-    <Stack>
-      <Stack.Screen name="index" options={{ headerShown: false }} />
-      <Stack.Screen
-        name="otp"
-        options={{
-          headerTitle: "Enter Your Phone Number",
-          headerBackVisible: false,
-        }}
-      />
-      <Stack.Screen
-        name="verify/[phone]"
-        options={{
-          headerTitle: "Verify Your Phone Number",
-          headerBackTitle: "Edit number",
-        }}
-      />
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-    </Stack>
-    //</ThemeProvider>
+    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+      <Stack>
+        <Stack.Screen name="index" options={{ headerShown: false }} />
+        <Stack.Screen
+          name="otp"
+          options={{
+            headerTitle: "Enter Your Phone Number",
+            headerBackVisible: false,
+          }}
+        />
+        <Stack.Screen
+          name="verify/[phone]"
+          options={{
+            headerTitle: "Verify Your Phone Number",
+            headerBackTitle: "Edit number",
+          }}
+        />
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen
+          name="(modals)/chatSearch"
+          options={{ headerShown: false }}
+        />
+      </Stack>
+    </ThemeProvider>
   );
 }
-
-// return (
-//   <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-//     <Stack>
-//       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-//       <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
-//     </Stack>
-//   </ThemeProvider>
-// );

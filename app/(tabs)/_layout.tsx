@@ -5,19 +5,22 @@ import React from "react";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import Colors from "@/constants/Colors";
+import { useColorScheme } from "react-native";
 
 const Layout = () => {
   const segments = useSegments();
+  const colorScheme = useColorScheme();
+  const color = colorScheme === "dark" ? Colors.dark : Colors.light;
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <Tabs
         screenOptions={{
           tabBarStyle: {
-            backgroundColor: Colors.background,
+            backgroundColor: color.tabs,
           },
-          tabBarActiveTintColor: Colors.primary,
-          tabBarInactiveBackgroundColor: Colors.background,
-          tabBarActiveBackgroundColor: Colors.background,
+          tabBarActiveTintColor: color.primary,
+          tabBarInactiveBackgroundColor: color.tabs,
+          tabBarActiveBackgroundColor: color.tabs,
           headerStyle: {
             backgroundColor: Colors.background,
           },
@@ -41,6 +44,7 @@ const Layout = () => {
         <Tabs.Screen
           name="communities"
           options={{
+            headerShown: false,
             title: "Communities",
             tabBarIcon: ({ size, color }) => (
               <MaterialIcons name="people" size={size} color={color} />

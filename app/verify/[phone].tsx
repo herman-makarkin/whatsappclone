@@ -7,6 +7,7 @@ import { Stack } from "expo-router";
 import { TouchableOpacity } from "react-native";
 import { Platform } from "react-native";
 import { router } from "expo-router";
+import { useColorScheme } from "react-native";
 
 import {
   CodeField,
@@ -45,14 +46,38 @@ const Page = () => {
       }
     }
   }, [code]);
+
+  const colorScheme = useColorScheme();
+  const color = colorScheme === "dark" ? Colors.dark : Colors.light;
+
   return (
-    <View style={styles.container}>
+    <View
+      style={{
+        flex: 1,
+        alignItems: "center",
+        padding: 20,
+        backgroundColor: color.background,
+      }}
+    >
       <Stack.Screen options={{ headerTitle: phone }} />
 
-      <Text style={styles.legal}>
+      <Text
+        style={{
+          fontSize: 14,
+          textAlign: "center",
+          color: color.text,
+        }}
+      >
         We have sent you an Sms with a code to the number above
       </Text>
-      <Text style={styles.legal}>
+      <Text
+        style={{
+          marginTop: 20,
+          fontSize: 14,
+          textAlign: "center",
+          color: color.text,
+        }}
+      >
         To complete your phone number verification, please enter the 6-digit
         actiovation code.
       </Text>
@@ -76,7 +101,23 @@ const Page = () => {
           renderCell={({ index, symbol, isFocused }) => (
             <Text
               key={index}
-              style={[styles.cell, isFocused && styles.focusCell]}
+              style={[
+                {
+                  width: 40,
+                  height: 40,
+                  lineHeight: 38,
+                  fontSize: 24,
+                  borderBottomWidth: 2,
+                  borderBottomColor: color.secondary,
+                  color: color.text,
+                  textAlign: "center",
+                },
+                isFocused && {
+                  borderBottomColor: color.primary,
+                },
+
+                //styles.focusCell,
+              ]}
               onLayout={getCellOnLayoutHandler(index)}
             >
               {symbol || (isFocused ? <Cursor /> : null)}
@@ -86,23 +127,23 @@ const Page = () => {
       </SafeAreaView>
 
       <TouchableOpacity style={styles.button} onPress={resendCode}>
-        <Text style={styles.buttonText}>Didn't receive a code?</Text>
+        <Text
+          style={{
+            marginTop: 70,
+            fontSize: 20,
+            fontWeight: "bold",
+            color: color.primary,
+            textAlign: "center",
+          }}
+        >
+          Didn't receive a code?
+        </Text>
       </TouchableOpacity>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    padding: 20,
-    backgroundColor: Colors.background,
-  },
-  description: {
-    color: Colors.gray,
-    marginBottom: 20,
-  },
   list: {
     width: "100%",
     backgroundColor: "white",
@@ -116,36 +157,13 @@ const styles = StyleSheet.create({
     padding: 6,
     marginBottom: 15,
   },
-  legal: {
-    fontSize: 14,
-    textAlign: "center",
-    color: "#000",
-  },
   button: {
     width: "100%",
     alignContent: "center",
   },
-  buttonText: {
-    marginTop: 70,
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "blue",
-    textAlign: "center",
-  },
+  buttonText: {},
   root: { flex: 1, padding: 20 },
   codeFieldRoot: { marginTop: 20, gap: 8 },
-  cell: {
-    width: 40,
-    height: 40,
-    lineHeight: 38,
-    fontSize: 24,
-    borderBottomWidth: 2,
-    borderBottomColor: "#00000030",
-    textAlign: "center",
-  },
-  focusCell: {
-    borderColor: "#000",
-  },
 });
 
 export default Page;

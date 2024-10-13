@@ -14,19 +14,24 @@ import { Image } from "react-native";
 import { StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { format } from "date-fns";
+import { useColorScheme } from "react-native";
 
 const Page = () => {
   const [isEditing, setEditing] = useState(false);
   const [items, setItems] = useState(calls);
 
   const onEdit = () => {};
+
+  const colorScheme = useColorScheme();
+  const color = colorScheme === "dark" ? Colors.dark : Colors.light;
+
   return (
     <View
       style={{
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: Colors.background,
+        backgroundColor: color.background,
       }}
     >
       <Stack.Screen
@@ -48,22 +53,45 @@ const Page = () => {
         contentInsetAdjustmentBehavior="automatic"
         contentContainerStyle={{ paddingBottom: 50 }}
       >
-        <View style={defaultStyles.block}>
+        <View
+          style={[
+            defaultStyles.block,
+            {
+              backgroundColor: color.tabs,
+            },
+          ]}
+        >
           <FlatList
             data={items}
             scrollEnabled={false}
             keyExtractor={(item) => item.id.toString()}
-            ItemSeparatorComponent={() => (
-              <View style={defaultStyles.separator} />
-            )}
+            //ItemSeparatorComponent={() => (
+            //<View style={defaultStyles.separator} />
+            //)}
             renderItem={({ item }) => (
-              <View style={[styles.item]}>
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  width: "100%",
+                  paddingVertical: 10,
+                  paddingLeft: 10,
+                  marginTop: 10,
+
+                  borderRadius: 10,
+                  shadowColor: "#000",
+                  shadowOffset: { width: 0, height: 2 },
+                  shadowOpacity: 0.8,
+                  backgroundColor: color.tabs,
+                }}
+              >
                 <Image source={{ uri: item.img }} style={styles.avatar} />
                 <View style={{ flex: 1, gap: 2 }}>
                   <Text
                     style={{
-                      fontSize: 24,
-                      color: item.missed ? Colors.red : "#000",
+                      fontSize: 18,
+                      color: item.missed ? Colors.red : color.text,
                     }}
                   >
                     {item.name}
@@ -71,10 +99,12 @@ const Page = () => {
                   <View style={{ flexDirection: "row", gap: 4 }}>
                     <Ionicons
                       name={item.video ? "videocam" : "call"}
-                      size={24}
-                      color={Colors.gray}
+                      size={20}
+                      color={color.secondary}
                     />
-                    <Text style={{ color: Colors.gray, flex: 1, fontSize: 16 }}>
+                    <Text
+                      style={{ color: color.secondary, flex: 1, fontSize: 14 }}
+                    >
                       {item.incoming ? "Incoming" : "Outgoing"}
                     </Text>
                   </View>
@@ -111,24 +141,6 @@ const styles = StyleSheet.create({
     height: 60,
     borderRadius: 30,
     marginRight: 10,
-    //resizeMode: "cover", // or 'stretch', 'center'
-  },
-  item: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    width: "100%",
-    paddingVertical: 10,
-    //marginRight: 80,
-    marginLeft: 10,
-    marginTop: 10,
-    //overflow: "hidden",
-
-    borderRadius: 10,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.8,
-    backgroundColor: "#fff",
   },
 });
 
