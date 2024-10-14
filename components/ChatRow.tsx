@@ -37,15 +37,16 @@ const ChatRow: FC<ChatRowProps> = ({
       <TouchableHighlight activeOpacity={0.8} underlayColor={color.secondary}>
         <View
           style={{
-            marginLeft: "auto",
-            marginRight: "auto",
-            width: 320,
+            //marginLeft: "auto",
+            //marginRight: "auto",
+            width: "auto",
+            padding: 10,
+            paddingTop: 12,
+            paddingRight: 20,
             flexDirection: "row",
             gap: 14,
             alignItems: "center",
-            // paddingLeft: 5,
             paddingVertical: 5,
-            paddingRight: 5,
             backgroundColor: color.tabs,
           }}
         >

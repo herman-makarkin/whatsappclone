@@ -17,6 +17,8 @@ import { InputToolbar } from "react-native-gifted-chat";
 import { Send } from "react-native-gifted-chat";
 import { Ionicons } from "@expo/vector-icons";
 import { useRef } from "react";
+import ChatMessageBox from "@/components/ChatMessageBox";
+import ReplyMessageBar from "@/components/ReplyMessageBar";
 
 const Page = () => {
   const [messages, setMessages] = useState<IMessage[]>([]);
@@ -68,6 +70,13 @@ const Page = () => {
     },
     [replyMessage]
   );
+
+  useEffect(() => {
+    if (replyMessage && swipeableRowRef.current) {
+      swipeableRowRef.current.close();
+      swipeableRowRef.current = null;
+    }
+  }, [replyMessage]);
 
   const onSend = useCallback((messages = []) => {
     console.log(messages);
@@ -137,6 +146,19 @@ const Page = () => {
             </View>
           );
         }}
+        renderMessage={(props) => (
+          <ChatMessageBox
+            {...props}
+            setReplyOnSwipeOpen={setReplyMessage}
+            updateRowRef={updateRowRef}
+          />
+        )}
+        renderChatFooter={() => (
+          <ReplyMessageBar
+            clearReply={() => setReplyMessage(null)}
+            message={replyMessage}
+          />
+        )}
       />
     </ImageBackground>
   );
