@@ -14,7 +14,9 @@ const Page = () => {
         backgroundColor: color.background,
       }}
     >
-      <Text>Page 1</Text>
+      <Text style={{ color: color.text, fontSize: 16 }}>
+        No Communities Yet
+      </Text>
     </View>
   );
 };

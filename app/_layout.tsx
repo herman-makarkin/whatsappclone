@@ -46,6 +46,7 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
+  const color = colorScheme === "dark" ? Colors.dark : Colors.light;
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
@@ -56,6 +57,9 @@ function RootLayoutNav() {
           options={{
             headerTitle: "Enter Your Phone Number",
             headerBackVisible: false,
+            headerStyle: {
+              backgroundColor: color.tabs,
+            },
           }}
         />
         <Stack.Screen

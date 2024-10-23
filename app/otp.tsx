@@ -82,13 +82,21 @@ const otp = () => {
         <View
           style={{
             width: "100%",
-            backgroundColor: "white",
+            backgroundColor: color.tabs,
             borderRadius: 8,
             padding: 10,
           }}
         >
-          <View style={styles.listItem}>
-            <Text>Russia</Text>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+              padding: 6,
+              marginBottom: 15,
+            }}
+          >
+            <Text style={{ color: color.text }}>Russia</Text>
             <Ionicons name="chevron-forward" size={23} color={Colors.gray} />
           </View>
           <View
@@ -104,6 +112,13 @@ const otp = () => {
             keyboardType="numeric"
             autoFocus
             placeholder="+7 your phone number"
+            placeholderTextColor={color.secondary}
+            style={{
+              marginTop: 10,
+              fontSize: 18,
+              // paddingHorizontal: 10,
+              color: color.text,
+            }}
             onChangeText={(masked, unmasked) => {
               setPhoneNumber(unmasked);
               console.log(unmasked);
@@ -151,14 +166,6 @@ const otp = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  listItem: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: 6,
-    marginBottom: 15,
-  },
-});
+const styles = StyleSheet.create({});
 
 export default otp;
