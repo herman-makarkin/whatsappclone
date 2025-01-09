@@ -5,8 +5,13 @@ import { TouchableOpacity } from "react-native";
 import { useColorScheme } from "react-native";
 import Colors from "@/constants/Colors";
 import { useTheme } from "@react-navigation/native";
+import Socket from "@/app/Socket";
+import { useEffect, useState } from "react";
+
 
 const welcome_image = Image.resolveAssetSource(welcomeImage).uri;
+console.log('hi', Socket, 'asdf');
+
 
 const Page = () => {
   const colorScheme = useColorScheme();

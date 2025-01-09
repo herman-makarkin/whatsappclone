@@ -42,12 +42,12 @@ const Layout = () => {
           }}
         />
         <Tabs.Screen
-          name="communities"
+          name="status"
           options={{
             headerShown: false,
-            title: "Communities",
+            title: "status",
             tabBarIcon: ({ size, color }) => (
-              <MaterialIcons name="people" size={size} color={color} />
+              <MaterialIcons name="person" size={size} color={color} />
             ),
           }}
         />

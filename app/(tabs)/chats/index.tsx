@@ -16,7 +16,6 @@ const Page = () => {
       contentContainerStyle={{
         paddingTop: 80,
         paddingBottom: 40,
-        width: 370,
         backgroundColor: color.background,
       }}
     >
@@ -34,18 +33,7 @@ const Page = () => {
           //   <View style={[defaultStyles.separator]} />
           // )}
           renderItem={({ item }) => (
-            // <View
-            //   style={{
-            //     display: "flex",
-            //     justifyContent: "center",
-            //     width: "100%",
-            //     // maxWidth: 300,
-            //   }}
-            // >
-            //   <View style={{ maxWidth: 350 }}>
             <ChatRow {...item} />
-            // </View>
-            // </View>
           )}
         />
       </View>

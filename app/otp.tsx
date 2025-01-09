@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { router, useRouter } from "expo-router";
 import Colors from "@/constants/Colors";
 import { StyleSheet, Text, View, KeyboardAvoidingView } from "react-native";
@@ -8,6 +8,9 @@ import { TouchableOpacity } from "react-native";
 import MaskInput from "react-native-mask-input";
 import { ActivityIndicator } from "react-native";
 import { useColorScheme } from "react-native";
+import Socket from '@/app/Socket';
+import UserStore from "./store/UserStore";
+
 const RUS_PHONE = [
   "+",
   /\d/,
@@ -30,14 +33,34 @@ const RUS_PHONE = [
 const otp = () => {
   const [loading, setLoading] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState("");
+  const userStore = UserStore((newUser) => newUser.setUser);
+
+  useEffect(() => {
+    function onUserByPN(newUser) {
+      console.log(newUser);
+      userStore(newUser, 'newUser');
+
+      if (newUser) {
+        console.log(newUser);
+      }
+    }
+
+    Socket.once('userByPN', onUserByPN);
+
+    return () => {
+      Socket.off('userByPN');
+    }
+  }, []);
 
   const sendOTP = () => {
+    Socket.emit('userByPN', phoneNumber);
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
       router.push(`/verify/${phoneNumber}`);
     }, 2000);
   };
+
 
   const colorScheme = useColorScheme();
   const color = colorScheme === "dark" ? Colors.dark : Colors.light;
@@ -132,11 +155,11 @@ const otp = () => {
           style={[
             phoneNumber !== ""
               ? {
-                  backgroundColor: color.primary,
-                }
+                backgroundColor: color.primary,
+              }
               : {
-                  backgroundColor: color.secondary,
-                },
+                backgroundColor: color.secondary,
+              },
             {
               width: "100%",
               alignItems: "center",
@@ -151,11 +174,11 @@ const otp = () => {
             style={[
               phoneNumber !== ""
                 ? {
-                    color: color.text,
-                  }
+                  color: color.text,
+                }
                 : {
-                    color: color.text,
-                  },
+                  color: color.text,
+                },
             ]}
           >
             Next

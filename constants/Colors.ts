@@ -5,6 +5,7 @@ export default {
   primary: "#1063FD",
   muted: "#3A5A92",
   background: "#EFEEF6",
+  secondaryBackground: "#E7E7E7",
   gray: "#6E6E73",
   lightGray: "#DCDCE2",
   green: "#4FEE57",
@@ -14,6 +15,7 @@ export default {
   light: {
     text: "#000",
     background: "#EFEEF6",
+    secondaryBackground: "#E7E7E7",
     tint: tintColorLight,
     tabIconDefault: "#ccc",
     tabIconSelected: tintColorLight,
@@ -24,6 +26,7 @@ export default {
   dark: {
     text: "#E9EDEF",
     background: "#111B21",
+    secondaryBackground: "#323232",
     tint: tintColorDark,
     tabIconDefault: "#ccc",
     tabIconSelected: tintColorDark,

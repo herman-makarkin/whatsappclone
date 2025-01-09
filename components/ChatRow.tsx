@@ -39,10 +39,10 @@ const ChatRow: FC<ChatRowProps> = ({
           style={{
             //marginLeft: "auto",
             //marginRight: "auto",
-            width: "auto",
+            width: "100%",
             padding: 10,
             paddingTop: 12,
-            paddingRight: 20,
+            // paddingRight: 20,
             flexDirection: "row",
             gap: 14,
             alignItems: "center",
